@@ -11,11 +11,10 @@ export const connectDatabase = () => {
     DB_URI = process.env.DB_URI;
   }
 
-  console.log("uri: ", DB_URI);
+  mongoose.connect(DB_URI);
+  const db = mongoose.connection;
 
-  mongoose
-    .connect(DB_URI)
-    .then((connection) =>
-      console.log(`MongoDB Database connected with HOST: ${connection?.host}`)
-    );
+  db.once("open", () => {
+    console.log(`MongoDB Database connected with HOST: ${db.host}`);
+  });
 };
